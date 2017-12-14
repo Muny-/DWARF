@@ -1,0 +1,273 @@
+-- Azuru DWARF (Desktop Web Application Rendering Framework) Docs -- 
+
+ = EVENTS =
+
+    - Events in the AppFile:
+
+     - onAppLoaded | called when the entire app has loaded, and forms are ready to be created
+
+     - onAppClosed | called right before the application is closed, the backend waits for this function to complete until it ends the process.
+
+    - Events in Forms:
+
+     - onFormLoaded | called when the form is created (shown for the first time)
+
+     - onFormActivated | called when the window created by the form gains focus
+
+     - onFormDeactivated | called when the window created by the form looses focus
+
+     - onFormLocationChanged | called when the location of the form has changed
+
+      args: ((int) x, (int) y)
+
+     - onFormSizeChanged | called when the size of the form has changed
+
+      args: ((int) width, (int) height)
+
+     - onConsoleMessage | called when a console message is logged (either an error/warning, or from a console.log called from the app)
+
+      args: ((string) eventname, (int) linenumber, (string) message, (string) sourcefile)
+
+ = FUNCTIONS =
+
+  - "App"
+
+   - (JS Array) App.getForms | returns the currently loaded forms in the application as a javascript array
+
+    ex. result: ["mainform", "authform"]
+
+   - (Boolean) App.showForm | shows the specified form
+
+    params: ((string) name - The name of the form to show)
+
+   - (Boolean) App.hideForm | hides the specified form
+
+    params: ((string) name - The name of the form to hide)
+
+   - (Boolean) App.duplicateForm | creates another instance of the same form
+
+    params: ((string) name - The name of the form to duplicate, (string) newformname - The name of the duplicated form)
+
+   - (No Return Value) App.close | closes all forms within the app, and ends the process
+
+    params: none
+
+   - (Boolean) App.closeForm | closes the specified form (disposes of the form, cannot be reused)
+
+    params: ((string) name - The name of the form to close)
+
+   - (String) App.getCurrentFormName | returns the calling form's name
+
+    ex. result: "mainform"
+
+   - (JS Array) App.getFormSize | returns the specified form's size as a javascript array
+
+    params: ((string) name - The name of the form to get the size of)
+
+    ex. result: {"width": 500, "height": 300}
+
+   - (Boolean) App.setFormSize | sets the size of the specified form
+
+    params: ((string) name - The name of the form to set the size of, (int) width - The new width of the form, (int) height - The new height of the form)
+
+   - (JS Array) App.getFormLocation | returns the specified form's location as a javascript array
+
+    params: ((string) name - The name of the form to get the location of)
+
+    ex. result: {"x": 100, "y": 200}
+
+   - (Boolean) App.setFormLocation | sets the location of the specified form
+
+    params: ((string) name - The name of the form to set the location of, (int) x - The new x value for the form's location, (int) y - The new y value for the form's location)
+
+   - (Boolean) App.setFormBorderStyle | sets the border style of the specified form
+
+    params: ((string) name - The name of the form to set the borderstyle of, (BorderStyle) borderstyle)
+
+   - (BorderStyle) App.getFormBorderStyle | gets the border style of the specified form
+
+    params: ((string) name - The name of the form to get the borderstyle of)
+
+   - (Boolean) App.setFormOpacity | sets the opacity of the specified form
+
+    params: ((string) name - The name of the form to set the opacity of, (double) opacity - The new opacity of the form)
+
+   - (Double) App.getFormOpacity | gets the opacity of the specified form
+
+    params: ((string) name - The name of the form to get the opacity of)
+
+   - (Boolean) App.setFormTopMost | sets the topmost boolean of the specified form
+
+    params: ((string) name - The name of the form to set the topmost boolean of, (boolean) topmost - topmost or not topmost)
+
+   - (Boolean) App.getFormTopMost | gets the topmost boolean of the specified form
+
+    params: ((string) name - The name of the form to get the topmost boolean of)
+
+   - (Boolean) App.setActiveForm | sets the active form
+
+    params: ((string) name - The name of the form to make active)
+
+   - (Mixed) App.setGlobalVar | sets the specified global variable to the specified value
+
+    params: ((string) name - The name of the global variable, (mixed) the value of the global variable)
+
+   - (Mixed) App.getGlobalVar | gets the value of the specified global variable
+
+    params: ((string) name - The name of the global variable)
+
+   - (Boolean) App.unsetGlobalVar | unsets the specified global variable
+
+    params: ((string) name - The name of the global variable)
+
+   - (TaskbarPosition) App.getTaskbarPosition | gets the position of the taskbar
+
+    params: none
+
+   - (Integer) App.getTaskbarWidth | gets the width of the taskbar in pixels
+
+    params: none
+
+   - (Integer) App.getTaskbarHeight | gets the height of the taskbar in pixels
+
+    params: none
+
+   - (Boolean) App.animateFormLocation | animates the specified form to the specified location
+
+    params: ((string) name - The name of the form to animate, (double) speed; default=0.02, (int) x, (int) y, (EasingFunction) easingfunction, (EasingMode) easingmode, (mixed) options, ...) - See Animations.ease for options associated with each Easing function.
+
+   - (Boolean) App.animateFormOpacity | animates the opacity of the specified form
+
+    params: ((string) name - The name of the form to animate, (double) speed; default=0.02, (double) targetOpacity - The desired opacity, (EasingFunction) easingfunction, (EasingMode) easingmode, (mixed) options, ...) - See Animations.ease for options associated with each Easing function.
+
+   - (String) App.getFormTitle | gets the title of the specified form
+
+    params: ((string) name - The name of the form to get the title of)
+
+   - (String) App.setFormTitle | sets the title of the specified form
+
+    params: ((string) name - The name of the form to set the title of, (string) title - The new title of te form)
+
+   - (Screen) App.getPrimaryScreen | gets the screen instance of the current primary screen
+
+   - (Screen[]) App.getScreens | gets an array of all of the screens connected to the computer
+
+   - App.onMouseFormDrag | causes the form to move along with the cursor, (used to move the form when the BorderStyle is None)
+
+   - (Boolean) App.centerForm | centers the specified form in relation to its current screen and its dimensions
+
+    params: ((string) name - The name of the form to center)
+
+  - "FileSystem"
+
+   - (Boolean) FileSystem.createDirectory | creates the specified directory
+
+    params: ((string) path)
+
+    ex. params: ("storage")
+
+   - (Boolean) FileSystem.createFile | creates a file in the specified location
+
+    params: ((string) path)
+
+    ex. params: ("storage/file.txt")
+
+   - (Boolean) FileSystem.deleteDirectory | deletes the specified directory
+
+    params: ((string) path)
+
+    ex. params: ("storage")
+
+   - (Boolean) FileSystem.deleteFile | deletes the specified file
+
+    params: ((string) path)
+
+    ex. params: ("storage/file.txt")
+
+   - (Boolean) FileSystem.overwriteToFile | creates or overwrites the specified file with the specified contents
+
+    params: ((string) path, (string) content)
+
+    ex. params: ("storage/file.txt", "Hola, world!")
+
+   - (Boolean) FileSystem.appendTextToFile | appends the specified text to the specified file
+
+    params: ((string) path, (string) content)
+
+    ex. params: ("storage/file.txt", "\nHola again, world!")
+
+   - (String) FileSystem.readFromFile | returns the contents of the specified file
+
+    params: ((string) path)
+
+    ex. params: ("storage/file.txt")
+
+ = UTILITIES =
+
+  - "Animations"
+
+   (Double) Animations.ease | eases using the specified easing function and properties
+
+    - Easing functions (http://msdn.microsoft.com/en-us/library/ee308751.aspx): 
+
+     BackEase:  Animations.ease(EasingFunctions.BackEase, (double) duration, (EasingMode) EasingModes.EaseIn, (double) Amplitude; default=1)
+
+     BounceEase: Animations.ease(EasingFunctions.BounceEase, (double) duration, (EasingMode) EasingModes.EaseIn, (int) Bounces; default=3, (double) Bounciness; default=2)
+
+     CircleEase: Animations.ease(EasingFunctions.CircleEase, (double) duration, (EasingMode) EasingModes.EaseIn)
+
+     CubicEase: Animations.ease(EasingFunctions.CubicEase, (double) duration, (EasingMode) EasingModes.EaseIn)
+
+     ElasticEase: Animations.ease(EasingFunctions.ElasticEase, (double) duration, (EasingMode) EasingModes.EaseIn, (int) Oscillations; default=3, (double) Springiness; default=3)
+
+     ExponentialEase: Animations.ease(EasingFunctions.ExponentialEase, (double) duration, (EasingMode) EasingModes.EaseIn, (double) Exponent; default=2)
+
+     PowerEase: Animations.ease(EasingFunctions.PowerEase, (double) duration, (EasingMode) EasingModes.EaseIn, (double) Power; default=2)
+
+     QuadraticEase: Animations.ease(EasingFunctions.QuadraticEase, (double) duration, (EasingMode) EasingModes.EaseIn)
+
+     QuarticEase: Animations.ease(EasingFunctions.QuarticEase, (double) duration, (EasingMode) EasingModes.EaseIn)
+
+     QuinticEase: Animations.ease(EasingFunctions.QuinticEase, (double) duration, (EasingMode) EasingModes.EaseIn)
+
+     SineEase: Animations.ease(EasingFunctions.SineEase, (double) duration, (EasingMode) EasingModes.EaseIn)
+
+ = ENUMS = 
+
+  - "BorderStyle"
+
+   - BorderStyles.None
+   - BorderStyles.FixedSingle
+   - BorderStyles.Fixed3D
+   - BorderStyles.FixedDialog
+   - BorderStyles.Sizable
+   - BorderStyles.FixedToolWindow
+   - BorderStyles.SizableToolWindow
+
+  - "EasingFunction"
+
+   - EasingFunctions.BackEase
+   - EasingFunctions.BounceEase
+   - EasingFunctions.CircleEase
+   - EasingFunctions.CubicEase
+   - EasingFunctions.ElasticEase
+   - EasingFunctions.ExponentialEase
+   - EasingFunctions.PowerEase
+   - EasingFunctions.QuadraticEase
+   - EasingFunctions.QuarticEase
+   - EasingFunctions.QuinticEase
+   - EasingFunctions.SineEase
+
+  - "EasingMode"
+
+   - EasingModes.EaseIn
+   - EasingModes.EaseInOut
+   - EasingModes.EaseOut
+
+  - "TaskbarPosition"
+
+   - TaskbarPositions.Bottom
+   - TaskbarPositions.Left
+   - TaskbarPositions.Right
+   - TaskbarPositions.Top
+   - TaskbarPositions.Unknown
