@@ -1,0 +1,484 @@
+<html>
+<head>
+	<title>DWARF Debug Tool</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+
+    <style>
+        * {
+            margin:0;
+            padding:0;
+        }
+
+        body {
+            font-family: /*"Segoe UI Light", */"Segoe UI", Arial, sans-serif;
+            color: #333;
+        }
+
+        .gray {
+            color: rgb(128, 128, 128);
+            margin-top:3px;
+        }
+
+        #console-messages {
+            overflow-y: scroll;
+            height: 90%;
+            width: 100%;
+            font-family: 'Droid Sans Mono', Menlo, monospace !important;
+            font-size: 11px !important;
+            cursor: default;
+        }
+
+        .messageitem div, .messageitem span {
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+
+        .messageitem {
+            padding: 10px;
+            word-wrap: break-word;
+            border-bottom: 1px solid #999;
+            
+        }
+
+        #settings-console {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            font-size: 15px;
+            position: static;
+            bottom: 0px;
+            padding: 8px;
+            border-top: 1px solid #888;
+            height: 16px;
+            width: 100%;
+        }
+
+        .responseType {
+            color: #1662EA;
+            font-size:16px;
+            margin-right: -1px;
+        }
+
+        #menu {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            font-size: 15px;
+            position: static;
+            top: 0px;
+            padding: 8px;
+            border-bottom: 1px solid #888;
+            height: 16px;
+            width: 100%;
+            cursor: default;
+            margin-left:-5px;
+        }
+
+        label {
+            display: block;
+            padding-left: 15px;
+            text-indent: -15px;
+        }
+
+        input {
+            width: 13px;
+            height: 13px;
+            padding: 0;
+            margin: 0;
+            vertical-align: bottom;
+            position: relative;
+            top: -2px;
+            overflow: hidden;
+            margin-right: 4px;
+        }
+
+        .menuitem {
+            margin-top:-8px;
+            display: inline-block;
+            font-size: 16px;
+            vertical-align: middle;
+            text-align: center;
+            color: #444;
+            border-right: 1px solid #999;
+            padding: 5px;
+            padding-right:10px;
+            height:22px;
+            margin-left: -4px;
+            padding-left:9px;
+        }
+
+        .menuitem.active, .menuitem:active {
+            background-color: rgba(0,0,0,0.05);
+            -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+            color: #555;
+        }
+
+        .menuitem:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        #formselect {
+
+        }
+
+        .code-input {
+            color: #2f91f2;
+            
+            margin-top: -2px;
+            margin-left: 19px;
+            overflow:hidden;
+            word-wrap: break-word;
+        }
+
+        .codeResponseType {
+            float: left;
+            margin-top: -6px;
+        }
+
+        .message {
+            color: #585858;
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+
+        .error {
+            color: #ed1e3a !important;
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+
+        .warning {
+            color: #eea800 !important;
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+
+        .string-enc {
+            color: #0070A5 !important;
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+
+        .number-enc {
+            color: #2e08c0 !important;
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+
+        .objectkey {
+            color: #831784;
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+
+        .boolean {
+            color: #007944;
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+
+        #jscode {
+            height: 22px;
+            width: 100%;
+            margin-right: 0px;
+            border: none;
+            outline: none;
+            padding: 6px 6px 6px 10px;
+            font-family: 'Droid Sans Mono', Menlo, monospace !important;
+            font-size: 11px;
+            display: inline;
+            margin-left: 0px;
+            overflow: hidden;
+            resize: none;
+            cursor: default;
+        }
+
+        #jscode_wrap {
+            margin-top: 1px;
+        }
+
+    </style>
+
+	<script>
+        function onFormLoaded()
+        {
+            var forms = App.getForms();
+
+            for (var i = 0; i < forms.length; i++)
+            {
+                if (forms[i] != "debug") {
+                    var elm = document.createElement("option");
+                    elm.setAttribute("value", forms[i]);
+                    elm.innerText = forms[i];
+                    document.getElementById("formselect").appendChild(elm);
+                }
+            }
+
+            window.onresize();
+        }
+
+        function onFormClosing()
+        {
+            return 2;
+        }
+
+        function onFormActivated()
+        {
+
+        }
+
+        function onFormDeactivated()
+        {
+
+        }
+
+        function onFormLocationChanged(x, y)
+        {
+
+        }
+
+        function onFormSizeChanged(width, height)
+        {
+
+        }
+
+        function onConsoleMessage(eventname, linenumber, message, sourcefile)
+        {
+
+        }
+
+        String.prototype.replaceAll = function (find, replace) {
+            var str = this;
+            return str.replace(new RegExp(find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g'), replace);
+        };
+
+        var jscode_wrap;
+
+        function addConsoleMessageToList(formname, eventname, linenumber, message, sourcefile, responseType, messageType)
+        {
+            var elm = document.createElement("div");
+            elm.setAttribute("class", "messageitem");
+
+            elm.innerHTML = "<div><span class=\"" + messageType + " message\">" + message + "</span></div><div class=\"gray\"><span class=\"responseType\">" + responseType + "</span> " + formname + " : " + sourcefile + ":" + linenumber + " : " + messageType + "</div>";
+
+            var focused = document.getElementById("jscode").focused;
+
+            document.getElementById("console-messages").removeChild(jscode_wrap);
+            document.getElementById("console-messages").appendChild(elm);
+            document.getElementById("console-messages").appendChild(jscode_wrap);
+
+            if (focused)
+                document.getElementById("jscode").focus();
+
+            if (document.getElementById("scrolldown").checked)
+                document.getElementById("console-messages").scrollTop = document.getElementById("console-messages").scrollHeight;
+
+        }
+
+        function execute()
+        {
+            if (document.getElementById("jscode").value != "") {
+                var code = document.getElementById("jscode").value;
+                document.getElementById("jscode").value = "";
+
+                addCommand(code);
+
+                resize(document.getElementById("jscode"));
+
+                App.invokeOnFormDebugCallback(document.getElementById("formselect").value, code.replace(/^\s+|\s+$/g, ''));
+            }
+        }
+
+        function addCommand(code)
+        {
+            var elm = document.createElement("div");
+            elm.setAttribute("class", "messageitem");
+
+            code = code.replaceAll("\n", "<br>").replaceAll("\r\n", "<br>");
+
+            elm.innerHTML = "<span class=\"responseType codeResponseType\">&raquo;</span><div class=\"code-input\">" + code.escapeHTMLEntities() + "</div>";
+
+            document.getElementById("console-messages").removeChild(jscode_wrap);
+            document.getElementById("console-messages").appendChild(elm);
+            document.getElementById("console-messages").appendChild(jscode_wrap);
+            document.getElementById("jscode").focus();
+
+            if (document.getElementById("scrolldown").checked)
+                document.getElementById("console-messages").scrollTop = document.getElementById("console-messages").scrollHeight;
+        }
+
+        window.onresize = function () {
+            document.getElementById("console-messages").style.height = (window.innerHeight - 70) + "px";
+            document.getElementById("console-messages").style.width = (window.innerWidth) + "px";
+            document.getElementById("settings-console").style.width = (window.innerWidth - 16) + "px";
+            document.getElementById("menu").style.width = (window.innerWidth - 11) + "px";
+
+            jscode_wrap.style.width = (window.innerWidth - 10) + "px";
+            document.getElementById("jscode").style.width = (window.innerWidth - 30) + "px";
+        }
+
+        var resize = function (t) {
+
+            var offset = !window.opera ? (t.offsetHeight - t.clientHeight) : (t.offsetHeight + parseInt(window.getComputedStyle(t, null).getPropertyValue('border-top-width')));
+
+            t.style.height = 'auto';
+            t.style.height = (t.scrollHeight + offset) + 'px';
+
+            if (document.getElementById("scrolldown").checked)
+                document.getElementById("console-messages").scrollTop = document.getElementById("console-messages").scrollHeight;
+        }
+
+        window.onload = function () {
+
+            jscode_wrap = document.createElement("div");
+
+            jscode_wrap.setAttribute("id", "jscode_wrap");
+
+            jscode_wrap.innerHTML = "<span class=\"responseType\" style=\"float: left; display:inline; margin-left:10px;margin-top:2px;\">&raquo;</span><textarea id=\"jscode\"  onkeydown=\"txtChang(event);\" onfocus=\"this.focused = true;\" onblur=\"this.focused = false;\"></textarea>";
+
+            document.getElementById("console-messages").appendChild(jscode_wrap);
+
+            document.getElementById("console-messages").onclick = function () {
+                if (document.getElementById("console-messages").scrollTop == (document.getElementById("console-messages").scrollHeight - document.getElementById("console-messages").offsetHeight))
+                    document.getElementById("jscode").focus();
+            }
+
+            window.onresize();
+
+            var t = document.getElementsByTagName('textarea')[0];
+            var offset = !window.opera ? (t.offsetHeight - t.clientHeight) : (t.offsetHeight + parseInt(window.getComputedStyle(t, null).getPropertyValue('border-top-width')));
+
+            t.addEventListener && t.addEventListener('input', function (event) {
+                resize(t);
+            });
+
+            t['attachEvent'] && t.attachEvent('onkeyup', function () {
+                resize(t);
+            });
+
+        }
+
+        var changID;
+
+        function txtChang(ev) {
+
+            var isShift;
+            var key;
+
+            if (window.event) {
+                key = window.event.keyCode;
+                isShift = window.event.shiftKey ? true : false;
+            } else {
+                key = ev.which;
+                isShift = ev.shiftKey ? true : false;
+            }
+
+            if (key == 13 && !isShift) {
+                ev.preventDefault();
+                execute();
+            }
+            else if (key == 13 && isShift) {
+                document.getElementById("jscode").value += "\n";
+            }
+
+            resize(document.getElementById("jscode"));
+
+            /*if (typeof changID == "undefined") {
+
+                setInterval(function () {
+                    var isShift;
+                    var key;
+
+                    if (window.event) {
+                        key = window.event.keyCode;
+                        isShift = window.event.shiftKey ? true : false;
+                    } else {
+                        key = ev.which;
+                        isShift = ev.shiftKey ? true : false;
+                    }
+
+                    if (key == 13 && !isShift) {
+                        ev.preventDefault();
+                        execute();
+                    }
+                    else if (key == 13 && isShift) {
+                        //document.getElementById("jscode").value += "\n";
+                    }
+
+                    var top = document.getElementById("jscode").scrollTop, height = document.getElementById("jscode").offsetHeight;
+
+                    if (top > 0) {
+                        document.getElementById("jscode").style.height = top + height + "px";
+                    }
+                }, 10);
+            }*/
+        }
+
+        var currentTab = "console";
+
+        function switchTab(tab)
+        {
+            if (tab !== currentTab)
+            {
+                document.getElementById("container-" + currentTab).style.visibility = "hidden";
+                document.getElementById("menu-" + currentTab).setAttribute("class", "menuitem");
+                currentTab = tab;
+                document.getElementById("container-" + currentTab).style.visibility = "visible";
+                document.getElementById("menu-" + currentTab).setAttribute("class", "menuitem active");
+
+                document.getElementById("menu-" + currentTab).setAttribute("class", "menuitem active");
+            }
+        }
+
+        window.onkeydown = function(ev)
+        {
+            //console.log(ev);
+        }
+
+        function updateHiddenObjectInnerHtml(id, serialized)
+        {
+            document.getElementById(id).innerHTML = serialized;
+        }
+
+    </script>
+</head>
+<body oncontextmenu="return false;">
+    <div id="menu">
+        <div class="menuitem active" onclick="switchTab('console');" id="menu-console">
+            Console
+        </div>
+        <div class="menuitem" onclick="switchTab('network');" id="menu-network">
+            Network
+        </div>
+        <div class="menuitem" onclick="switchTab('app');" id="menu-app">
+            App
+        </div>
+    </div>
+    <div id="containers">
+        <div id="container-console" style="position:absolute;">
+            <div id="console-messages">
+
+            </div>
+            <div id="settings-console">
+                <label id="scrollwithlabel" style="display: inline-block; padding-right: 14px; border-right: 1px solid rgb(150, 150, 150)"><input type="checkbox" id="scrolldown" checked /> Scroll with messages</label>
+                <button id="clearConsole" onclick="document.getElementById('console-messages').innerHTML = ''; document.getElementById('console-messages').appendChild(jscode_wrap);" style="margin-left: 14px; display: inline-block; padding:3px;margin-top:-4px; margin-right:12px; ">Clear</button>
+                <span style="border-right: 1px solid rgb(150, 150, 150)"></span>
+                <select id="formselect" style="margin-left: 16px; display: inline-block; padding: 3px; margin-top: -4px; margin-right: 14px;"></select>
+            </div>
+        </div>
+        <div id="container-network" style="visibility: hidden; position: absolute;">
+            Network related debugging tools...not completed yet
+        </div>
+        <div id="container-app" style="visibility: hidden; position: absolute;">
+            Application related debugging tools...not completed yet
+        </div>
+    </div>
+</body>
+</html>

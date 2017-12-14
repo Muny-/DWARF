@@ -1,0 +1,63 @@
+<html>
+<head>
+	<title>DWARF Foundry</title>
+	<style type="text/css">
+		body {
+			font-family: "Segoe UI Light";
+		}
+
+		#head {
+			padding: 10px;
+		}
+
+		img, button {
+			vertical-align: middle;
+		}
+
+		button {
+			opacity: 0;
+			-webkit-transition: opacity 50ms linear;
+		}
+
+		button:hover {
+			opacity:1;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+		function onFormLoaded() {
+			App.animateFormOpacity("index", 0.02, 1, EasingFunctions.QuinticEase, EasingModes.EaseOut); 
+		}
+
+		function onFormActivated() {
+			App.animateFormOpacity("index", 0.02, 1, EasingFunctions.QuinticEase, EasingModes.EaseOut); 
+		}
+		
+		function onFormDeactivated() {
+			App.animateFormOpacity("index", 0.02, 0.9, EasingFunctions.QuinticEase, EasingModes.EaseOut);
+		}
+
+		function onFormLocationChanged(x, y) {
+
+		}
+
+		function onFormSizeChanged(width, height) {
+			console.log("width: " + width + "  height: " + height);
+		}
+
+		function onFormClosing() {
+			return 1;
+		}
+
+		//function onConsoleMessage(eventname, linenumber, message, sourcefile) { alert(eventname); }
+		
+	</script>
+
+	<div id="head">
+		<span id="title-text">Welcome to DWARF Foundry - lol</span><span id="settings-ico"></span>
+	</div>
+	<div class="separator"></div>
+</body>
+
+</html>

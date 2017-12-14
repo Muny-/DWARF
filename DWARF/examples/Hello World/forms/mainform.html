@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<title>Main Form</title>
+	</head>
+
+	<body style="background-color:#222; color:whitesmoke; font-family: 'Segoe UI Light';">
+		<script type="text/javascript">
+
+			function onFormLoaded()
+			{
+				App.animateFormOpacity(App.getCurrentFormName(), 0.06, 1, EasingFunctions.QuinticEase, EasingModes.EaseIn);
+			}
+
+			function onFormClosing()
+			{
+				return 1;
+			}
+
+			function onFormActivated()
+			{
+
+			}
+
+			function onFormDeactivated()
+			{
+
+			}
+
+			function onFormLocationChanged(x, y)
+			{
+
+			}
+
+			function onFormSizeChanged(width, height)
+			{
+
+			}
+
+			function onConsoleMessage(eventname, linenumber, message, sourcefile)
+			{
+				alert(message);
+			}
+
+		</script>
+
+		<h1>This is the Main Form!</h1>
+		<br />
+		<button onclick="App.showForm('secondaryform');" title="...to open the secondary form">Click me!</button>
+
+		<button onclick="App.close();">Close App</button>
+
+		<button onmousedown="App.onMouseFormDrag();">Move Form</button>
+
+
+	</body>
+</html>

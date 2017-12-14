@@ -1,0 +1,22 @@
+﻿<metro:Window x:Class="DWARFAppMan.AskAction"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+        xmlns:metro="http://schemas.codeplex.com/elysium"
+    xmlns:params="http://schemas.codeplex.com/elysium/params" params:Manager.Theme="Light" params:Design.Theme="Light" Height="339" Width="434" Title="&lt;Action&gt; &lt;Type&gt;" WindowStartupLocation="CenterScreen" Topmost="True" ResizeMode="NoResize" params:Manager.AccentBrush="#FF27A5D7">
+    <Grid>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="353,270,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
+        <Button x:Name="actionButton" Content="&lt;Action&gt;" HorizontalAlignment="Left" Margin="273,270,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Label HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top" Height="68" Width="408">
+            <TextBlock x:Name="appNameText" Text="&lt;ItemName&gt;" Height="58" Width="398" TextTrimming="CharacterEllipsis" FontFamily="Segoe UI Light" FontSize="36"/>
+        </Label>
+        <Image HorizontalAlignment="Left" Height="100" Margin="302,48,0,0" VerticalAlignment="Top" Width="100"/>
+        <ScrollViewer Margin="38,129,10,60">
+            <TextBlock x:Name="permissionsText" HorizontalAlignment="Left" Text="&lt;Permissions&gt;" VerticalAlignment="Top" Height="Auto" Width="380" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"/>
+        </ScrollViewer>
+        <Label x:Name="permLabel" Content="This &lt;type&gt; can:" HorizontalAlignment="Left" Margin="20,94,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</metro:Window>

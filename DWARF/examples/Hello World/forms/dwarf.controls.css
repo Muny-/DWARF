@@ -1,0 +1,48 @@
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:400,300,700");
+
+body {
+    margin:0;
+    padding:0;
+    border: 10px solid #333;
+    border-top: none;
+}
+#dwarf-window-controls {
+    margin: 0px;
+    padding: 0px;
+    background: #333;
+    -webkit-user-select: none;
+    cursor: default;
+    font-family: "Open Sans";
+}
+    #dwarf-window-controls ul {
+        list-style: none;
+        /*min-height: 30px;*/
+        height: 30px;
+        margin: 0px;
+        vertical-align: middle;
+        padding-left: 0px;
+    }
+        #dwarf-window-controls ul li {
+            height: 28px;
+            vertical-align: middle;
+            display: inline-block;
+            color: #ccc;
+            font-size: 21px;
+            text-align: center;
+            font-weight: 900;
+        }
+            #dwarf-window-controls ul li:not(#dwarf-window-controls-title) {
+                width: 38px !important;
+            }
+            #dwarf-window-controls ul li:not(#dwarf-window-controls-title):hover {
+                cursor: default;
+                color: #eee;
+            }
+            #dwarf-window-controls ul li#dwarf-window-controls-title {
+                text-align: left;
+                font-size: 15px;
+                font-weight: 400;
+                line-height: 30px;
+                text-transform: uppercase;
+                padding-left: 5px;
+            }

@@ -1,0 +1,17 @@
+{
+    "name": "DWARF Foundry",
+    "author": "Kevin Smith + Cameron Kelley // Azuru Networks",
+    "debugging": true,
+    "version": 0.1,
+    "forms": [
+        {
+            "name": "index",
+            "title": "DWARF Foundry",
+            "file": "index.html",
+            "width": 560,
+            "height": 360,
+            "startposition": "center",
+            "defaultwindowborder": true
+        }
+    ]
+}

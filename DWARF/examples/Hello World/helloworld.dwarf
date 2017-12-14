@@ -1,0 +1,21 @@
+{
+	"name": "Hello World",
+	"author": "Kevin Smith//Azuru Networks",
+	"forms": [
+		{
+			"name": "mainform",
+			"title": "Main Form",
+			"file": "mainform.html",
+			"opacity": 0,
+			"startposition": "center"
+		},
+		{
+			"name": "secondaryform",
+			"title": "Secondary Form",
+			"file": "secondaryform.html",
+			"windowcontrols": true,
+			"width": 500,
+			"height": 500
+		}
+	]
+}
